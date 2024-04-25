@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MAIL</string>
+    <string name="bottom_title_home">Início</string>
+    <string name="bottom_title_settings">Ajustes</string>
+    <string name="language_settings">Configurações de idioma</string>
+    <string name="back">Voltar</string>
+    <string name="search_email">Pesquisar email</string>
+    <string name="default_appbar_title" />
+    <string name="downloaded_language">Idioma baixado</string>
+    <string name="downloading_language">Baixando idioma</string>
+    <string name="tap_to_download">Toque para fazer o download</string>
+    <string name="download_warning_languages">Ao fazer o download de um idioma, você pode traduzir os e-mails recebidos para esse idioma mesmo sem conexão com a internet.</string>
+    <string name="download_warning_emails">Para traduzir os e-mails recebidos para esse idioma mesmo sem conexão com a internet, faça o download do arquivo de tradução.</string>
+    <string name="delete_warning">Se você remover este arquivo de tradução, não poderá traduzir os e-mails recebidos para esse idioma até fazer o download novamente.</string>
+    <string name="download_completed">Download concluído</string>
+    <string name="baixar">Baixar</string>
+    <string name="remover">Remover</string>
+    <string name="write">Escrever</string>
+    <string name="translate_from_to">Traduzir do %1$s para %2$s</string>
+    <string name="show_original">Mostrar original</string>
+    <string name="no_languages_available">Nenhum idioma disponível ainda</string>
+    <string name="loading">Carregando…</string>
+</resources>
