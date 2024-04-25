@@ -9,9 +9,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
+import com.alura.mail.mlkit.translatableLanguageModels
 import com.alura.mail.ui.navigation.HomeNavHost
 import com.alura.mail.ui.theme.MAILTheme
 import com.google.mlkit.nl.languageid.LanguageIdentification
+import com.google.mlkit.nl.languageid.LanguageIdentifier.UNDETERMINED_LANGUAGE_TAG
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -31,12 +33,14 @@ class MainActivity : ComponentActivity() {
 
                     //identify probability about the language in text
                     val languageIdentifier = LanguageIdentification.getClient()
-                    languageIdentifier.identifyPossibleLanguages(text)
-                        .addOnSuccessListener { identifiedLanguages ->
-                            for (identifiedLanguage in identifiedLanguages) {
-                                val language = identifiedLanguage.languageTag
-                                val confidence = identifiedLanguage.confidence
-                                Log.i("language", "$language $confidence")
+                    languageIdentifier.identifyLanguage(text)
+                        .addOnSuccessListener { languageCode ->
+                            val languageName: String? = translatableLanguageModels[languageCode]
+                                ?: UNDETERMINED_LANGUAGE_TAG
+                            if (languageName != UNDETERMINED_LANGUAGE_TAG) {
+                                Log.i("language", "languageName: $languageName code $languageCode  ")
+                            } else {
+                                Log.i("language", "onCreate: error")
                             }
                         }
                         .addOnFailureListener {
