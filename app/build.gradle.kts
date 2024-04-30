@@ -81,5 +81,6 @@ dependencies {
     ksp (libs.hilt.compiler)
 
     implementation(libs.language.id)
+    implementation(libs.mlkit.translate)
     
 }
