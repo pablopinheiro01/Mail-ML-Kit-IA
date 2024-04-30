@@ -9,8 +9,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
+import com.alura.mail.mlkit.TextTranslator
 import com.alura.mail.ui.navigation.HomeNavHost
 import com.alura.mail.ui.theme.MAILTheme
+import com.alura.mail.util.FileUtil
 import com.google.mlkit.common.model.DownloadConditions
 import com.google.mlkit.nl.translate.TranslateLanguage
 import com.google.mlkit.nl.translate.Translation
@@ -30,34 +32,23 @@ class MainActivity : ComponentActivity() {
                     val navController = rememberNavController()
                     HomeNavHost(navController = navController)
 
-                    val text = "Hello world"
+                    val text = "Uma arquitetura separadac"
 
-                    // Create an English-German translator:
-                    val options = TranslatorOptions.Builder()
-                        .setSourceLanguage(TranslateLanguage.ENGLISH)
-                        .setTargetLanguage(TranslateLanguage.PORTUGUESE)
-                        .build()
-                    val translator = Translation.getClient(options)
-
-                    val conditions = DownloadConditions.Builder()
-                        .requireWifi()
-                        .build()
-
-                    translator.downloadModelIfNeeded(conditions)
-                        .addOnSuccessListener {
-                            Log.i("Main", "onCreate: modelo baixado")
-                            translator.translate(text).addOnSuccessListener {
-                                Log.i("Main", "text: $text, translated: $it ")
-                            }.addOnFailureListener{
-                                Log.e("Main", "onCreate: error $it", )
-                            }
+                    val textTranslator =  TextTranslator(FileUtil(this))
+                   textTranslator.languageIdentifier(
+                        text = text,
+                        onSuccess = {
+                            textTranslator.verifyDownloadModule(
+                                modelCode = it.code,
+                                onSuccess = {
+                                    Log.i("TRAD", "verifyDownloadModule: modelo disponivel para ${it.name}")
+                                },
+                                onFailure = {
+                                    Log.i("TRAD", "Modelo indisponivel")
+                                }
+                            )
                         }
-                        .addOnFailureListener{
-                            Log.e("Main", "Modelo nao baixado $it", )
-                        }
-
-
-
+                    )
 
                 }
             }
