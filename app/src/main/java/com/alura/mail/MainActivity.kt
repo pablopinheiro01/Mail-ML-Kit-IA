@@ -33,43 +33,10 @@ class MainActivity : ComponentActivity() {
 
                     val text = "Hello world"
 
-                    //identify probability about the language in text
-                    languageIdentifier(
-                        text,
-                        onSuccess = {
-                            Log.i("language", "$it")
-                        },
-                        onFailure = {
-                            Log.i("language", "Language not identified")
-
-                        }
-                    )
                 }
             }
         }
     }
 
-    private fun languageIdentifier(
-        text: String,
-        onSuccess: (String) -> Unit = {},
-        onFailure: () -> Unit = {}
-    ) {
-        val languageIdentifier = LanguageIdentification.getClient()
-        languageIdentifier.identifyLanguage(text)
-            .addOnSuccessListener { languageCode ->
-                val languageName: String = translatableLanguageModels[languageCode]
-                    ?: UNDETERMINED_LANGUAGE_TAG
-                if (languageName != UNDETERMINED_LANGUAGE_TAG) {
-                    onSuccess(languageName)
-                } else {
-                    onFailure()
-                }
-            }
-            .addOnFailureListener {
-                // Model couldn’t be loaded or other internal error.
-                // ...
-                onFailure()
-            }
-    }
 }
 
