@@ -28,25 +28,6 @@ class MainActivity : ComponentActivity() {
                     val navController = rememberNavController()
                     HomeNavHost(navController = navController)
 
-//                    val text = "Uma arquitetura separadac"
-                    val text = "Тесте де модело де традуцао до гоогле"
-
-                    val textTranslator =  TextTranslator(FileUtil(this))
-                   textTranslator.languageIdentifier(
-                        text = text,
-                        onSuccess = {
-                            textTranslator.verifyDownloadModule(
-                                modelCode = it.code,
-                                onSuccess = {
-                                    Log.i("TRAD", "verifyDownloadModule: modelo disponivel para ${it.name}")
-                                },
-                                onFailure = {
-                                    Log.i("TRAD", "Modelo indisponivel")
-                                }
-                            )
-                        }
-                    )
-
                 }
             }
         }
