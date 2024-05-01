@@ -1,7 +1,9 @@
 package com.alura.mail.mlkit
 
 import android.util.Log
+import com.alura.mail.model.DownloadState
 import com.alura.mail.model.Language
+import com.alura.mail.model.LanguageModel
 import com.alura.mail.util.FileUtil
 import com.google.mlkit.common.model.DownloadConditions
 import com.google.mlkit.common.model.RemoteModelManager
@@ -111,6 +113,17 @@ class TextTranslator(private val fileUtil: FileUtil) {
                 // Error.
                 onFailure()
             }
+    }
+
+    fun getAllModels(): List<LanguageModel> {
+        return TranslateLanguage.getAllLanguages().map { model ->
+            LanguageModel(
+                id = model,
+                name = translatableLanguageModels[model] ?: model,
+                downloadState = DownloadState.NOT_DOWNLOADED,
+                size = fileUtil.getSizeModel(model)
+            )
+        }
     }
 }
 

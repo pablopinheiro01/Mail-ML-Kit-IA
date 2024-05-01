@@ -27,8 +27,9 @@ class TranslateSettingsViewModel @Inject constructor(
 
     internal fun loadLanguages() {
         viewModelScope.launch {
-            delay(3000)
+            delay(500)
             _uiState.value = _uiState.value.copy(
+                allLanguageModels = textTranslator.getAllModels()
             )
             updateLanguagesState()
             loadDownloadedLanguages()
