@@ -89,6 +89,29 @@ class TextTranslator(private val fileUtil: FileUtil) {
             }
 
     }
+
+    fun downloadModel(
+        modelName: String,
+        onSuccess: () -> Unit = {},
+        onFailure: () -> Unit = {}
+    ){
+        val model = TranslateRemoteModel.Builder(modelName).build()
+        val conditions = DownloadConditions.Builder()
+            .requireWifi()
+            .build()
+
+        val modelManager = RemoteModelManager.getInstance()
+
+        modelManager.download(model, conditions)
+            .addOnSuccessListener {
+                // Model downloaded.
+                onSuccess()
+            }
+            .addOnFailureListener {
+                // Error.
+                onFailure()
+            }
+    }
 }
 
 

@@ -1,5 +1,6 @@
 package com.alura.mail.ui.contentEmail
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -75,6 +76,24 @@ class ContentEmailViewModel @Inject constructor(
     }
 
     private fun downloadDefaultLanguageModel() {
+
+        val defaultLanguage = _uiState.value.localLanguage?.code.toString()
+
+        textTranslator.downloadModel(
+            modelName = defaultLanguage,
+            onSuccess = {
+                translateEmail()
+
+                Log.i("defaultLanguage", "modelo default baixado com ssucesso ")
+            },
+            onFailure = {
+                _uiState.value = _uiState.value.copy(
+                    translatedState = TranslatedState.NOT_TRANSLATED
+                )
+                Log.i("defaultLanguage", "error nao baixou a brincadeira ")
+            }
+        )
+
     }
 
     private fun verifyIfNeedTranslate() {
@@ -103,6 +122,20 @@ class ContentEmailViewModel @Inject constructor(
                     )
                 }
             } else {
+                val languageIdentified = _uiState.value.languageIdentified?.code.toString()
+
+                textTranslator.verifyDownloadModule(
+                    modelCode = languageIdentified,
+                    onSuccess = {
+                        tryTranslateEmail()
+                    },
+                    onFailure = {
+                        _uiState.value = _uiState.value.copy(
+                            showDownloadLanguageDialog = true
+                        )
+                    }
+                )
+
                 setTranslateState(TranslatedState.TRANSLATING)
             }
         }
@@ -138,6 +171,21 @@ class ContentEmailViewModel @Inject constructor(
 
     fun downloadLanguageModel() {
         val languageIdentified = _uiState.value.languageIdentified?.code ?: return
+
+        textTranslator.downloadModel(
+            modelName = languageIdentified,
+            onSuccess = {
+                translateEmail()
+
+                Log.i("defaultLanguage", "modelo default baixado com ssucesso ")
+            },
+            onFailure = {
+                _uiState.value = _uiState.value.copy(
+                    translatedState = TranslatedState.NOT_TRANSLATED
+                )
+                Log.i("defaultLanguage", "error nao baixou a brincadeira ")
+            }
+        )
     }
 
     fun showDownloadLanguageDialog(show: Boolean) {

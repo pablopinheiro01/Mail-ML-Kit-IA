@@ -13,10 +13,6 @@ import com.alura.mail.mlkit.TextTranslator
 import com.alura.mail.ui.navigation.HomeNavHost
 import com.alura.mail.ui.theme.MAILTheme
 import com.alura.mail.util.FileUtil
-import com.google.mlkit.common.model.DownloadConditions
-import com.google.mlkit.nl.translate.TranslateLanguage
-import com.google.mlkit.nl.translate.Translation
-import com.google.mlkit.nl.translate.TranslatorOptions
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -32,7 +28,8 @@ class MainActivity : ComponentActivity() {
                     val navController = rememberNavController()
                     HomeNavHost(navController = navController)
 
-                    val text = "Uma arquitetura separadac"
+//                    val text = "Uma arquitetura separadac"
+                    val text = "Тесте де модело де традуцао до гоогле"
 
                     val textTranslator =  TextTranslator(FileUtil(this))
                    textTranslator.languageIdentifier(
