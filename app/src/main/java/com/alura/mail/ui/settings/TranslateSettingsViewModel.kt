@@ -110,9 +110,34 @@ class TranslateSettingsViewModel @Inject constructor(
             languageModel = languageModel,
             downloadState = DownloadState.DOWNLOADING
         )
+
+        textTranslator.downloadModel(
+            modelName = languageModel.id,
+            onSuccess = {
+                loadLanguages()
+            },
+            onFailure = {
+                updateDownloadState(
+                    languageModel = languageModel,
+                    downloadState = DownloadState.NOT_DOWNLOADED
+                )
+            }
+        )
     }
 
     fun removeLanguage(languageModel: LanguageModel) {
+        textTranslator.removeModel(
+            languageModel.id,
+            onSuccess = {
+                loadLanguages()
+            },
+            onFailure = {
+                updateDownloadState(
+                    languageModel,
+                    downloadState = DownloadState.DOWNLOADED
+                )
+            }
+        )
     }
 
     fun cleanState() {

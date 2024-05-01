@@ -130,7 +130,7 @@ class TextTranslator(private val fileUtil: FileUtil) {
 
     fun getDownloadedModels(
         onSuccess: (List<LanguageModel>) -> Unit = {},
-        onFailure: () -> Unit =  {}
+        onFailure: () -> Unit = {}
     ) {
 
         val modelManager = RemoteModelManager.getInstance()
@@ -161,8 +161,28 @@ class TextTranslator(private val fileUtil: FileUtil) {
 
     }
 
+    fun removeModel(
+        modelName: String,
+        onSuccess: () -> Unit = {},
+        onFailure: () -> Unit = {}
+    ) {
+        val model = TranslateRemoteModel.Builder(modelName).build()
 
-    companion object{
+        val modelManager = RemoteModelManager.getInstance()
+
+        modelManager.deleteDownloadedModel(model)
+            .addOnSuccessListener {
+                // Model downloaded.
+                onSuccess()
+            }
+            .addOnFailureListener {
+                // Error.
+                onFailure()
+            }
+    }
+
+
+    companion object {
         const val TAG = "TextTranslator"
     }
 
