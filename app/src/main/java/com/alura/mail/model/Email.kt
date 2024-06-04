@@ -7,4 +7,5 @@ data class Email(
     val time: Long,
     val color: Long,
     val user: User,
+    val replies: List<Email> = emptyList()
 )

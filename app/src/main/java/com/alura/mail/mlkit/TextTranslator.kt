@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateListOf
 import com.alura.mail.model.DownloadState
 import com.alura.mail.model.Language
 import com.alura.mail.model.LanguageModel
+import com.alura.mail.model.Message
 import com.alura.mail.util.FileUtil
 import com.google.mlkit.common.model.DownloadConditions
 import com.google.mlkit.common.model.RemoteModelManager
@@ -68,8 +69,11 @@ class TextTranslator(private val fileUtil: FileUtil) {
         translator.translate(text)
             .addOnSuccessListener { textTranslated ->
                 onSuccess(textTranslated)
-            }.addOnFailureListener {
+                Log.i("translator", "text: $text, translated: $textTranslated")
+            }
+            .addOnFailureListener {
                 onFailure()
+                Log.e("translator", "error: $it")
             }
             .addOnCompleteListener {
                 translator.close()
@@ -77,7 +81,8 @@ class TextTranslator(private val fileUtil: FileUtil) {
 
     }
 
-    fun verifyDownloadModule(
+
+    fun verifyDownloadModel(
         modelCode: String,
         onSuccess: () -> Unit = {},
         onFailure: () -> Unit = {},
@@ -100,6 +105,7 @@ class TextTranslator(private val fileUtil: FileUtil) {
 
     }
 
+
     fun downloadModel(
         modelName: String,
         onSuccess: () -> Unit = {},
@@ -114,7 +120,24 @@ class TextTranslator(private val fileUtil: FileUtil) {
 
         modelManager.download(model, conditions)
             .addOnSuccessListener {
-                // Model downloaded.
+                onSuccess()
+            }
+            .addOnFailureListener {
+                onFailure()
+            }
+    }
+
+    fun removeModel(
+        modelName: String,
+        onSuccess: () -> Unit = {},
+        onFailure: () -> Unit = {}
+    ) {
+        val model = TranslateRemoteModel.Builder(modelName).build()
+
+        val modelManager = RemoteModelManager.getInstance()
+
+        modelManager.deleteDownloadedModel(model)
+            .addOnSuccessListener {
                 onSuccess()
             }
             .addOnFailureListener {
@@ -144,6 +167,7 @@ class TextTranslator(private val fileUtil: FileUtil) {
         modelManager.getDownloadedModels(TranslateRemoteModel::class.java)
             .addOnSuccessListener { models ->
                 val languageModels = mutableListOf<LanguageModel>()
+
                 models.forEach { model ->
                     try {
                         languageModels.add(
@@ -154,9 +178,10 @@ class TextTranslator(private val fileUtil: FileUtil) {
                                 size = fileUtil.getSizeModel(model.modelNameForBackend)
                             )
                         )
-                        Log.i(TAG, "getDownloadedModels: model: ${model.modelNameForBackend}")
+
+                        Log.i("getDownloadedModels", "model: ${model.modelNameForBackend}")
                     } catch (e: Exception) {
-                        Log.i(TAG, "getDownloadedModels: error no try catch $e ")
+                        Log.e("getDownloadedModels", "error: $e")
                     }
                 }
                 onSuccess(languageModels)
@@ -167,32 +192,64 @@ class TextTranslator(private val fileUtil: FileUtil) {
 
     }
 
-    fun removeModel(
-        modelName: String,
-        onSuccess: () -> Unit = {},
-        onFailure: () -> Unit = {}
+    fun messageListTranslate(
+        messageList: List<Message>,
+        onSuccess: (List<Message>) -> Unit = {},
+        sourceLanguage: String = TranslateLanguage.PORTUGUESE,
+        targetLanguage: String = TranslateLanguage.ENGLISH,
     ) {
-        val model = TranslateRemoteModel.Builder(modelName).build()
+        val textMessageList = mutableListOf<Message>()
 
-        val modelManager = RemoteModelManager.getInstance()
+        val totalTexts = messageList.size
+        var textsTranslated = 0
 
-        modelManager.deleteDownloadedModel(model)
-            .addOnSuccessListener {
-                // Model downloaded.
-                onSuccess()
-            }
-            .addOnFailureListener {
-                // Error.
-                onFailure()
-            }
+        messageList.forEach { (message, isLocalUser) ->
+            textTranslate(
+                text = message,
+                sourceLanguage = sourceLanguage,
+                targetLanguage = targetLanguage,
+                onSuccess = { translatedText ->
+                    textMessageList.add(
+                        Message(
+                            content = translatedText,
+                            isLocalUser = isLocalUser
+                        )
+                    )
+                    textsTranslated++
+                    if (textsTranslated == totalTexts) {
+                        onSuccess(textMessageList)
+                    }
+                }
+            )
+        }
     }
 
+    fun listTranslate(
+        list: List<String>,
+        onSuccess: (List<String>) -> Unit = {},
+        sourceLanguage: String = TranslateLanguage.PORTUGUESE,
+        targetLanguage: String = TranslateLanguage.ENGLISH,
+    ) {
+        val translatedTextList = mutableListOf<String>()
 
-    companion object {
-        const val TAG = "TextTranslator"
+        val sizeList = list.size
+        var textsTranslated = 0
+
+        list.forEach { text ->
+            textTranslate(
+                text = text,
+                sourceLanguage = sourceLanguage,
+                targetLanguage = targetLanguage,
+                onSuccess = { translatedText ->
+                    translatedTextList.add(translatedText)
+                    textsTranslated++
+                    if (textsTranslated == sizeList) {
+                        onSuccess(translatedTextList)
+                    }
+                }
+            )
+        }
     }
-
-
 }
 
 

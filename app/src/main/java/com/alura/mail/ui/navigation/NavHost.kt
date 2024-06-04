@@ -67,7 +67,8 @@ fun HomeNavHost(
         topBar = {
             Crossfade(
                 state.showEmailsList,
-                animationSpec = tween(300)
+                animationSpec = tween(300),
+                label = "Crossfade"
             ) { showEmailsList ->
                 if (showEmailsList) {
                     HomeAppBar(scrollBehavior)

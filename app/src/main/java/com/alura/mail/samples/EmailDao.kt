@@ -2,6 +2,9 @@ package com.alura.mail.samples
 
 import com.alura.mail.model.Email
 import com.alura.mail.model.User
+import java.util.UUID
+
+const val DEFAULT_LOCAL_EMAIL_NAME = "Você"
 
 
 class EmailDao {
@@ -14,6 +17,78 @@ class EmailDao {
     }
 
     private val listOfEmails = listOf(
+        Email(
+            id = "6",
+            subject = "Respostas inteligentes",
+            content = "Fala aí John, tudo bem?\nEsse é o local que falei: 221B Baker Street, Reino Unido.\n" +
+                    "Vejo você lá às 16:19, qualquer coisa pode ligar nesse número: 4002-8922 ou manda msg" +
+                    "por aqui: teste@gmail.com.\nNa dúvida, dá uma olhada no https://www.alura.com.br/ " +
+                    "O valor valor do metro aqui é £ 2,78 que dá uns R$ 1.500 reais 🤣 \n" +
+                    "Ah mais uma coisa, não esquece meus US$100, meu IBAN é: GB15MIDL40051512345678",
+            time = 1701195661310,
+            color = 0xFFE77AAF,
+            user = User("Anya Freitas"),
+        ),
+        Email(
+            id = "-5",
+            subject = "Feliz aniversário",
+            content = "Feliz aniversário 🥳🥳🥳",
+            time = 1697824497961,
+            color = 0xFF5F96F5,
+            user = User("Daniel Dias"),
+            replies = listOf(
+                Email(
+                    id = "-6",
+                    subject = "",
+                    content = "Obrigado!",
+                    time = 1697824497962,
+                    color = 0xFFFF0057,
+                    user = User(DEFAULT_LOCAL_EMAIL_NAME),
+                ),
+                Email(
+                    id = "-7",
+                    subject = "Re: Feliz aniversário",
+                    content = "Vai ter bolo?👀",
+                    time = 1697824497961,
+                    color = 0xFF5F96F5,
+                    user = User("Daniel Dias")
+                )
+            )
+        ),
+        Email(
+            id = "-3",
+            subject = "Amanhã em York Shin",
+            content = "Tudo certo para amanhã as 10:00?",
+            time = 1701054000000,
+            color = 0xFF60AF71,
+            user = User("Leo Rio"),
+            replies = listOf(
+                Email(
+                    id = "-4",
+                    subject = "",
+                    content = "Sim, te encontro aonde?",
+                    time = 1697824497962,
+                    color = 0xFFFF774B,
+                    user = User(DEFAULT_LOCAL_EMAIL_NAME),
+                )
+            )
+        ),
+        Email(
+            id = "-2",
+            subject = "Gostosuras ou travessuras?",
+            content = "Feliz halloween 🎃\nPreprados para gostosuras e travessuras?",
+            time = 1698721200000,
+            color = 0xFFFF774B,
+            user = User("Jack Skellington")
+        ),
+        Email(
+            id = "-1",
+            subject = "I'm back!",
+            content = "My flight is LX373, please pick me up at 8am tomorrow.",
+            time = 1697824497961,
+            color = 0xFFE43B75,
+            user = User("Mrs. Hudson")
+        ),
         Email(
             id = "1",
             subject = "Idioma não traduzivel de exemplo",
@@ -283,4 +358,27 @@ class EmailDao {
             user = User("太郎")
         )
     )
+
+    private val listOfReplies1 = listOf(
+        Email(
+            id = "r1",
+            subject = "Respotas exemplo 1",
+            content = "",
+            time = 1699220584791,
+            color = 0xFF000000,
+            user = User("Dr Who")
+        ),
+        mountLocalEmail("").copy(id = "r2")
+    )
+
+    fun mountLocalEmail(content: String): Email {
+        return Email(
+            subject = "",
+            content = content,
+            id = UUID.randomUUID().toString(),
+            time = System.currentTimeMillis(),
+            color = 0XFF8F4F24,
+            user = User(DEFAULT_LOCAL_EMAIL_NAME),
+        )
+    }
 }

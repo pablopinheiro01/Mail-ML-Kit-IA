@@ -127,13 +127,13 @@ class TranslateSettingsViewModel @Inject constructor(
 
     fun removeLanguage(languageModel: LanguageModel) {
         textTranslator.removeModel(
-            languageModel.id,
+            modelName = languageModel.id,
             onSuccess = {
                 loadLanguages()
             },
             onFailure = {
                 updateDownloadState(
-                    languageModel,
+                    languageModel = languageModel,
                     downloadState = DownloadState.DOWNLOADED
                 )
             }

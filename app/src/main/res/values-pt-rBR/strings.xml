@@ -6,6 +6,7 @@
     <string name="language_settings">Configurações de idioma</string>
     <string name="back">Voltar</string>
     <string name="search_email">Pesquisar email</string>
+    <string name="send_reply">Enviar resposta</string>
     <string name="default_appbar_title" />
     <string name="downloaded_language">Idioma baixado</string>
     <string name="downloading_language">Baixando idioma</string>
@@ -21,4 +22,9 @@
     <string name="show_original">Mostrar original</string>
     <string name="no_languages_available">Nenhum idioma disponível ainda</string>
     <string name="loading">Carregando…</string>
+    <string name="reply">Responder</string>
+    <string name="add_reply">Adicionar resposta</string>
+    <string name="copied_to_transfer_area">Copiado para área de transferência: %1$s</string>
+    <string name="email_subject">Assunto do e-mail</string>
+    <string name="email_body">Corpo do e-mail</string>
 </resources>

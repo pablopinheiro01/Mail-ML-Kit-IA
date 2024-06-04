@@ -5,6 +5,7 @@
     <string name="bottom_title_settings">Settings</string>
     <string name="back">Back</string>
     <string name="search_email">Search email</string>
+    <string name="send_reply">Send reply</string>
     <string name="default_appbar_title" />
     <string name="downloaded_language">Downloaded Language</string>
     <string name="downloading_language">Downloading Language</string>
@@ -20,5 +21,10 @@
     <string name="show_original">Show original</string>
     <string name="no_languages_available">No languages available yet</string>
     <string name="loading">Loading…</string>
+    <string name="reply">Reply</string>
+    <string name="add_reply">Add reply</string>
+    <string name="copied_to_transfer_area">Copied to transfer area: %1$s</string>
+    <string name="email_subject">Email subject</string>
+    <string name="email_body">Email body</string>
 
 </resources>
